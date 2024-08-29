@@ -8,8 +8,8 @@
 import Foundation
 
 class ProductsViewModel {
-    var sections: [Section] = []
-    var products: [Product] = []
+    var sections: [Tovary] = []
+    var products: [ProductData] = []
 
     func fetchProducts(completion: @escaping () -> Void) {
         guard let url = URL(string: "https://szorin.vodovoz.ru/newmobile/glavnaya/super_top.php?action=topglav") else { return }
@@ -19,8 +19,8 @@ class ProductsViewModel {
             do {
                 let responseData = try JSONDecoder().decode(ResponseData.self, from: data)
                 if responseData.status == "Success" {
-                    self.sections = responseData.sections
-                    self.products = responseData.products
+                    self.sections = responseData.tovary
+                    self.products = self.sections.first?.productData ?? []
                     completion()
                 }
             } catch {
